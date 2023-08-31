@@ -11,7 +11,7 @@ const registerWithEmail = async (req: Request, res: Response) => {
       where: { email: email },
     });
 
-    if (existingUser) return res.status(500).json("User already exists");
+    if (existingUser) return res.status(409).json("User already exists");
 
     // Hash the password and save the user in the database:
     const salt = await bcrypt.genSalt();
@@ -48,7 +48,7 @@ const loginWithEmail = async (req: Request, res: Response) => {
     );
 
     if (!isCorrectPassword) {
-      return res.status(500).json("Invalid Password");
+      return res.status(403).json("Invalid Password");
     }
     const token = jwt.sign({ id: existingUser.id }, process.env.JWT_SECRET_KEY);
     const userWithoutPassword = existingUser.get();
@@ -61,7 +61,7 @@ const loginWithEmail = async (req: Request, res: Response) => {
   }
 };
 
-//
+// Sign in with OAuth 2.0
 
 const googleRegister = (req: object, res: object): number => 5;
 

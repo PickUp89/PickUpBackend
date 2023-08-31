@@ -24,10 +24,10 @@ app.use(bodyParser.json());
 app.use("/auth", authRoutes);
 
 // SYNC DATABASE:
-// const wantToSync = true;
-// if (wantToSync) {
-//     syncModel();
-// }
+const wantToSync = true;
+if (wantToSync) {
+    syncModel();
+}
 
 const server = http.createServer(app);
 server.listen(port, () => {
