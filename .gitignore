@@ -13,12 +13,9 @@ npm-debug.log*
 .env
 
 # Compiled output
-*.js
 *.map
 
 # Dependency lock files
 package-lock.json
 yarn.lock
-
-# API Test
-test.rest
+*.rest
