@@ -2,6 +2,8 @@ import express, { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/User";
+import { setCookie } from "../utils/set_cookies";
+
 // LOCAL LOGIN
 const registerWithEmail = async (req: Request, res: Response) => {
   try {
@@ -53,6 +55,7 @@ const loginWithEmail = async (req: Request, res: Response) => {
     const token = jwt.sign({ id: existingUser.id }, process.env.JWT_SECRET_KEY);
     const userWithoutPassword = existingUser.get();
     delete userWithoutPassword.password;
+    setCookie(res, 'authToken', token); // set the token into cookie
     return res.status(200).json({ token , user: userWithoutPassword});
 
   } catch (e) {
