@@ -56,6 +56,8 @@ const loginWithEmail = async (req: Request, res: Response) => {
     delete userWithoutPassword.password;
 
     const token = jwt.sign({email: userWithoutPassword.email, permissions: userWithoutPassword.permissions}, process.env.JWT_SECRET_KEY);
+    // set cookie for the user's browser domain
+    setCookie(res, 'authToken', token);
     return res.status(200).json({ token , user: userWithoutPassword});
 
   } catch (e) {
