@@ -50,9 +50,10 @@ const loginWithEmail = async (req: Request, res: Response) => {
     if (!isCorrectPassword) {
       return res.status(403).json("Invalid Password");
     }
-    const token = jwt.sign({ id: existingUser.id }, process.env.JWT_SECRET_KEY);
     const userWithoutPassword = existingUser.get();
     delete userWithoutPassword.password;
+
+    const token = jwt.sign({email: userWithoutPassword.email, permissions: userWithoutPassword.permissions}, process.env.JWT_SECRET_KEY);
     return res.status(200).json({ token , user: userWithoutPassword});
 
   } catch (e) {
