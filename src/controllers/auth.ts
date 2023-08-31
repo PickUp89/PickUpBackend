@@ -52,7 +52,8 @@ const loginWithEmail = async (req: Request, res: Response) => {
     }
     const userWithoutPassword = existingUser.get();
     delete userWithoutPassword.password;
-    const token = jwt.sign(userWithoutPassword, process.env.JWT_SECRET_KEY);
+
+    const token = jwt.sign({email: userWithoutPassword.email, permissions: userWithoutPassword.permissions}, process.env.JWT_SECRET_KEY);
     return res.status(200).json({ token , user: userWithoutPassword});
 
   } catch (e) {
