@@ -43,7 +43,7 @@ const User = sequelize.define<UserInstance>("User", {
     allowNull: true,
   },
   profilePicture: {
-    type: DataTypes.STRING(1234),
+    type: DataTypes.TEXT,
     allowNull: true,
   },
   permissions: {
