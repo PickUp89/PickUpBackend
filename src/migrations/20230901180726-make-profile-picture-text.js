@@ -11,8 +11,8 @@ module.exports = {
 
   async up (queryInterface, Sequelize) {
     await queryInterface.changeColumn('Users', 'profilePicture', {
-        type: Sequelize.STRING(1234),
-        allowNull: true,
+      type: Sequelize.STRING(1234),
+      allowNull: true,
     }) 
   },
 };

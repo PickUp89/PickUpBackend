@@ -3,6 +3,7 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 import User from "../models/User";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import imageUrlToBase64 from "../utils/imageUrlToBase64";
 dotenv.config();
 
 passport.use(
@@ -24,10 +25,12 @@ passport.use(
       );
       try {
         // Deferencing value from payload
-        const { id, name, emails } = profile;
+        const { id, name, emails, photos } = profile;
         const { familyName, givenName } = name;
         const userEmail =
           emails && profile.emails.length > 0 ? profile.emails[0].value : null;
+        const pictureUrl = photos && photos.length > 0 ? photos[0].value : null;
+        const base64Picture = await imageUrlToBase64(pictureUrl)
 
         // Find existing User by googleId
         const existingUser = await User.findOne({ where: { googleId: id } });
@@ -42,6 +45,7 @@ passport.use(
           firstName: givenName,
           lastName: familyName,
           email: userEmail,
+          profilePicture: base64Picture,
         });
 
         console.log("New Google User created", newUser);
