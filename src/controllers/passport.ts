@@ -1,6 +1,7 @@
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 import User from "../models/User";
+import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -54,14 +55,17 @@ passport.use(
 );
 // @ts-ignore
 passport.serializeUser(function (user, done) {
-  done(null, user.id);
+    done(null, user.id);
 });
 // @ts-ignore
-passport.deserializeUser(function (id, done) {
-  // @ts-ignore
-  User.findById(id, function (err, user) {
-    done(err, user);
-  });
+passport.deserializeUser(async function (id, done) {
+    // @ts-ignore
+    try {
+        const user = await User.findOne({ where: {id: id}});
+        done('', user);
+    } catch (err) {
+        done(err, null);
+    }
 });
 
 export default passport;

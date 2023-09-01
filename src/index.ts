@@ -1,4 +1,6 @@
 import express from 'express';
+import session from 'express-session';
+import passport from 'passport';
 import http from 'http';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
@@ -17,6 +19,14 @@ const app = express();
 app.use(cors({
     credentials: true,
 }))
+// Session management for passport - Need to consolidate with existing 
+app.use(session({
+    secret: process.env.SESSION_SECRET_KEY,
+    resave: false,
+    saveUninitialized: false,
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(compression());
 app.use(cookieParser());
 app.use(bodyParser.json());
