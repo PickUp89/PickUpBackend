@@ -9,12 +9,22 @@ Content-Type: application/json
   "password": "your-password"
 }
 ###
-###
+### LOGIN SUCCESS 
 POST  http://localhost:13000/auth/login/email
 Content-Type: application/json
 
 {
-  "email": "user2@example.com",
-  "password": "your-"
+  "email": "user3@example.com",
+  "password": "your-password"
 }
 ###
+### LOGIN FAILED 
+POST  http://localhost:13000/auth/login/email
+Content-Type: application/json
+
+{
+  "email": "user5@example.com",
+  "password": "your1-password"
+}
+###
+### Login/ Register with Google: http://localhost:13000/auth/google
