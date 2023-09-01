@@ -64,6 +64,4 @@ const loginWithEmail = async (req: Request, res: Response) => {
 
 // Sign in with OAuth 2.0
 
-const googleRegister = (req: object, res: object): number => 5;
-
-export { registerWithEmail, loginWithEmail, googleRegister };
+export { registerWithEmail, loginWithEmail };
