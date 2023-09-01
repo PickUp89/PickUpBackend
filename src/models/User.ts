@@ -10,6 +10,7 @@ interface UserAttributes {
   location: string;
   profilePicture: string;
   permissions: string[];
+  googleId: string;
 }
 
 interface UserInstance extends Model<UserAttributes>, UserAttributes {}
@@ -49,6 +50,11 @@ const User = sequelize.define<UserInstance>("User", {
     type: DataTypes.ARRAY(DataTypes.STRING),
     defaultValue: ["LOGIN"],
     allowNull: false,
+  },
+  googleId: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    unique: true,
   }
 });
 
