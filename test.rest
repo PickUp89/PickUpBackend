@@ -1,20 +1,38 @@
 ###
-POST  http://localhost:13000/auth/register/email
+POST  http://localhost:13000/pickup/auth/register/email
 Content-Type: application/json
 
 {
-  "firstName": "User 2",
-  "lastName": "Phan",
-  "email": "user3@example.com",
-  "password": "your-password"
+  "firstName": "User 3",
+  "lastName": "Hello",
+  "email": "user6@example.com",
+  "password": "my-password-this-time"
 }
 ###
 ###
-POST  http://localhost:13000/auth/login/email
+POST  http://localhost:13000/pickup/auth/login/email
 Content-Type: application/json
 
 {
-  "email": "user2@example.com",
-  "password": "your-"
+  "email": "user6@example.com",
+  "password": "my-password-this-time"
 }
 ###
+GET http://localhost:13000/pickup/user/get-user-profile/email
+Content-Type: application/json
+
+###
+PATCH http://localhost:13000/pickup/user/update-password/email
+Content-Type: application/json
+
+{
+  "update_password" : "my-password-this-time" 
+}
+
+### 
+DELETE  http://localhost:13000/pickup/user/delete-account/email
+Content-Type: application/json
+
+###
+POST http://localhost:13000/pickup/user/log-out/email
+Content-Type: application/json

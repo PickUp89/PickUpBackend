@@ -47,7 +47,7 @@ const User = sequelize.define<UserInstance>("User", {
   },
   permissions: {
     type: DataTypes.ARRAY(DataTypes.STRING),
-    defaultValue: ["LOGIN"],
+    defaultValue: [""],
     allowNull: false,
   }
 });

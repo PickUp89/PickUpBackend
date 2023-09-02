@@ -3,9 +3,11 @@ import { registerWithEmail, loginWithEmail, googleRegister } from '../controller
 
 const router = express.Router();
 
-router.post('/register/email', registerWithEmail);
-router.post('/login/email', loginWithEmail);
-router.post('/register/google', googleRegister);
+// all the routes
+// POST requests
+router.post('/register/email', registerWithEmail); // registration flow
+router.post('/login/email', loginWithEmail); // login with email
+router.post('/register/google', googleRegister); // login with third-party
 
 
 export default router;

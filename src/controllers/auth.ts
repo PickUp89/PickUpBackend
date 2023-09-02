@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/User";
@@ -18,13 +18,24 @@ const registerWithEmail = async (req: Request, res: Response) => {
     // Hash the password and save the user in the database:
     const salt = await bcrypt.genSalt();
     const hashPassword = await bcrypt.hash(password, salt);
+
+    // give the users certain permissions
+    const permissions: string[] = ["View profile", "View dashboard", "Update password", "Delete account"];
+
     const newUser = await User.create({
       firstName,
       lastName,
       email: email,
       password: hashPassword,
+      permissions: permissions, // assign the given profile
     });
-    return res.status(201).json(newUser);
+
+    // check if new user has been successfully created
+    if(!newUser) {
+      throw new Error(`Error with server! Cannot create user!`);
+    }
+
+    return res.status(201).json({ message: 'Register successfully!' }); // client has no permission to see user's information
   } catch (e) {
     console.error(e);
     return res.status(500).json({ error: e.message });
@@ -58,7 +69,7 @@ const loginWithEmail = async (req: Request, res: Response) => {
     const token = jwt.sign({email: userWithoutPassword.email, permissions: userWithoutPassword.permissions}, process.env.JWT_SECRET_KEY);
     // set cookie for the user's browser domain
     setCookie(res, 'authToken', token);
-    return res.status(200).json({ token , user: userWithoutPassword});
+    return res.status(200).json({ message : "Login successfully!" }); // No need to show client the user's information
 
   } catch (e) {
     console.error(e);
