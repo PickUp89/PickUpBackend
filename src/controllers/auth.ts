@@ -35,7 +35,7 @@ const registerWithEmail = async (req: Request, res: Response) => {
       throw new Error(`Error with server! Cannot create user!`);
     }
 
-    return res.status(201).json({ message: 'Register successfully!' }); // client has no permission to see user's information
+    return res.status(201).json({user: newUser});
   } catch (e) {
     console.error(e);
     return res.status(500).json({ error: e.message });
@@ -69,7 +69,7 @@ const loginWithEmail = async (req: Request, res: Response) => {
     const token = jwt.sign({email: userWithoutPassword.email, permissions: userWithoutPassword.permissions}, process.env.JWT_SECRET_KEY);
     // set cookie for the user's browser domain
     setCookie(res, 'authToken', token);
-    return res.status(200).json({ message : "Login successfully!" }); // No need to show client the user's information
+    return res.status(200).json({user: userWithoutPassword});
 
   } catch (e) {
     console.error(e);
