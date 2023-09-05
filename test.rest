@@ -1,38 +1,61 @@
-###
-POST  http://localhost:13000/pickup/auth/register/email
+### This file acts as a Contract showing all available routes
+### for the frontend as well as a set of tests for our backends.
+
+### CREATE ACCOUNT
+POST  http://localhost:13000/auth/register
 Content-Type: application/json
 
 {
   "firstName": "User 3",
   "lastName": "Hello",
-  "email": "user6@example.com",
-  "password": "my-password-this-time"
+  "email": "testSep5@example.com",
+  "password": "testSep5@example.com"
 }
 ###
-###
-POST  http://localhost:13000/pickup/auth/login/email
+
+### LOGIN 
+POST  http://localhost:13000/auth/login
 Content-Type: application/json
 
 {
-  "email": "user6@example.com",
+  "email": "testSep5@example.com",
   "password": "my-password-this-time"
 }
 ###
-GET http://localhost:13000/pickup/user/get-user-profile/email
+
+### GET USER BY EMAIL
+GET http://localhost:13000/users/get
 Content-Type: application/json
 
+{
+  "email": "testSep5@example.com"
+}
 ###
-PATCH http://localhost:13000/pickup/user/update-password/email
+
+### UPDATE PASSWORD
+PATCH http://localhost:13000/users/update-password
 Content-Type: application/json
 
 {
   "update_password" : "my-password-this-time" 
 }
 
-### 
-DELETE  http://localhost:13000/pickup/user/delete-account/email
+### UPDATE USER
+PATCH http://localhost:13000/users/update
 Content-Type: application/json
 
-###
-POST http://localhost:13000/pickup/user/log-out/email
+{
+  "fieldsToUpdate" : {
+    "firstName" : "New First Name",
+    "lastName" : "New Last Name"
+  }
+}
+
+
+### DELETE USER
+DELETE  http://localhost:13000/users/delete
+Content-Type: application/json
+
+### LOGOUT USER
+POST http://localhost:13000/auth/logout
 Content-Type: application/json

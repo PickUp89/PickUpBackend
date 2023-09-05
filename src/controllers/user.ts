@@ -1,5 +1,5 @@
 // user read (query one user), update and delete account 
-import { Request, Response } from "express";
+import e, { Request, Response } from "express";
 import User from "../models/User";
 import jwt from 'jsonwebtoken';
 import bcrypt from "bcrypt";
@@ -7,12 +7,7 @@ import bcrypt from "bcrypt";
 // GET request to get one user with a specific email
 const getUserWithEmail = async (req: Request, res: Response) => {
     try {
-        // get the cookies from front-end
-        const authToken = req.cookies['authToken'];
-
-        // decode the token and get the user's email for query
-        const decodedToken: any = jwt.verify(authToken, process.env.JWT_SECRET_KEY);
-        const email: string = decodedToken.email;
+        const email: string = req?.body?.email;
         // query the user with the email
         const findUser = await User.findOne({
             where: { email: email },
@@ -23,13 +18,12 @@ const getUserWithEmail = async (req: Request, res: Response) => {
             return res.status(404).json("Cannot find user with the provided email");
         }
 
-        const findUserWithoutPassword = findUser.get();
-        delete findUserWithoutPassword.id;
-        delete findUserWithoutPassword.password;
-        delete findUserWithoutPassword.permissions;
+        const foundUserWithoutPassword = findUser.get();
+        delete foundUserWithoutPassword.password;
+        delete foundUserWithoutPassword.permissions;
 
         // response 200 if query successful
-        return res.status(200).json(findUserWithoutPassword);
+        return res.status(200).json(foundUserWithoutPassword);
 
     } catch(err) {
         console.error(err);
@@ -91,6 +85,45 @@ const updatePassword = async (req: Request, res: Response) => {
     }
 }
 
+const updateUser = async (req: Request, res: Response) => {
+    try {
+        // get the cookies from front-end
+        const authToken = req.cookies['authToken'];
+        const fieldsToUpdate = req?.body?.fieldsToUpdate;
+
+        // decode the token and get the user's email for query
+        const decodedToken: any = jwt.verify(authToken, process.env.JWT_SECRET_KEY);
+        const email: string = decodedToken.email;
+        // query the user with the email
+        let foundUser = await User.findOne({
+            where: { email: email },
+        });
+
+        // if user is not found in the database
+        if(!foundUser) {
+            return res.status(404).json("Cannot find user with the provided email");
+        }
+        
+        Object.entries(fieldsToUpdate).forEach(([key, value]) => {
+            if (key in foundUser) {
+                // @ts-ignore
+                foundUser[key] = value;
+            }
+        });
+
+        foundUser.save();
+        
+
+
+        // response 200 if query successful
+        return res.status(200).json(foundUser);
+
+    } catch(err) {
+        console.error(err);
+        return res.status(500).json({ error: err.message });
+    }
+}
+
 // DELETE request to delete the user's account
 const deleteAccount = async (req:Request, res:Response) => {
     // get the user's email from cookies
@@ -119,4 +152,4 @@ const deleteAccount = async (req:Request, res:Response) => {
     }
 }
 
-export { getUserWithEmail, logOutUser, updatePassword, deleteAccount };
+export { getUserWithEmail, logOutUser, updatePassword, deleteAccount, updateUser };

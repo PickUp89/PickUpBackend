@@ -22,8 +22,8 @@ app.use(compression());
 app.use(cookieParser());
 app.use(bodyParser.json());
 
-app.use("/pickup/auth", authRoutes);
-app.use("/pickup/user", userProfileRoutes);
+app.use("/auth", authRoutes);
+app.use("/users", userProfileRoutes);
 
 // SYNC DATABASE:
 const wantToSync = true;
