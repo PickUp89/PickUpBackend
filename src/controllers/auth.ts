@@ -1,7 +1,9 @@
-import express, { Request, Response } from "express";
+import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/User";
+import { setCookie } from "../utils/set_cookies";
+
 // LOCAL LOGIN
 const registerWithEmail = async (req: Request, res: Response) => {
   try {
@@ -16,13 +18,24 @@ const registerWithEmail = async (req: Request, res: Response) => {
     // Hash the password and save the user in the database:
     const salt = await bcrypt.genSalt();
     const hashPassword = await bcrypt.hash(password, salt);
+
+    // give the users certain permissions
+    const permissions: string[] = ["View profile", "View dashboard", "Update password", "Delete account"];
+
     const newUser = await User.create({
       firstName,
       lastName,
       email: email,
       password: hashPassword,
+      permissions: permissions, // assign the given profile
     });
-    return res.status(201).json(newUser);
+
+    // check if new user has been successfully created
+    if(!newUser) {
+      throw new Error(`Error with server! Cannot create user!`);
+    }
+
+    return res.status(201).json({user: newUser});
   } catch (e) {
     console.error(e);
     return res.status(500).json({ error: e.message });
@@ -54,7 +67,9 @@ const loginWithEmail = async (req: Request, res: Response) => {
     delete userWithoutPassword.password;
 
     const token = jwt.sign({email: userWithoutPassword.email, permissions: userWithoutPassword.permissions}, process.env.JWT_SECRET_KEY);
-    return res.status(200).json({ token , user: userWithoutPassword});
+    // set cookie for the user's browser domain
+    setCookie(res, 'authToken', token);
+    return res.status(200).json({user: userWithoutPassword});
 
   } catch (e) {
     console.error(e);
