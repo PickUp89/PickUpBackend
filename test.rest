@@ -23,13 +23,9 @@ Content-Type: application/json
 }
 ###
 
-### GET USER BY EMAIL
-GET http://localhost:13000/users/get
-Content-Type: application/json
+### GET USER BY ID
+GET http://localhost:13000/users/get?id=6c3d889c-7d44-4b4f-a28b-7f38606d4f21
 
-{
-  "email": "testSep5@example.com"
-}
 ###
 
 ### UPDATE PASSWORD

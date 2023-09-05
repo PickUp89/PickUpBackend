@@ -5,12 +5,12 @@ import jwt from 'jsonwebtoken';
 import bcrypt from "bcrypt";
 
 // GET request to get one user with a specific email
-const getUserWithEmail = async (req: Request, res: Response) => {
+const getUser = async (req: Request, res: Response) => {
     try {
-        const email: string = req?.body?.email;
+        const id: string = String(req.query.id);
         // query the user with the email
         const findUser = await User.findOne({
-            where: { email: email },
+            where: { id: id },
         });
 
         // if user is not found in the database
@@ -152,4 +152,4 @@ const deleteAccount = async (req:Request, res:Response) => {
     }
 }
 
-export { getUserWithEmail, logOutUser, updatePassword, deleteAccount, updateUser };
+export { getUser, logOutUser, updatePassword, deleteAccount, updateUser };
