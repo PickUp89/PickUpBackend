@@ -1,12 +1,12 @@
-import express, { Router } from 'express';
-import { getUserWithEmail, updatePassword, deleteAccount, updateUser } from "../controllers/user";
+import express from 'express';
+import { getUser, updatePassword, deleteAccount, updateUser } from "../controllers/user";
 import { withPermissions } from '../middleware/middleware';
 
 const router = express.Router();
 
 // GET request to get one user's profile
 // router.get('/get-user-profile/email', withPermissions(['View profile']), getUserWithEmail);
-router.get('/get', getUserWithEmail);
+router.get('/get', getUser);
 
 // PATCH request to update any fields
 router.patch('/update-password', withPermissions(["Update password"]), updatePassword);
