@@ -55,3 +55,7 @@ Content-Type: application/json
 ### LOGOUT USER
 POST http://localhost:13000/auth/logout
 Content-Type: application/json
+
+### GET ALL SPORTS
+GET  http://localhost:13000/utils/getAllSports
+Content-Type: application/json
