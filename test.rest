@@ -1,14 +1,28 @@
-###
-POST  http://localhost:13000/auth/register/email
+### This file acts as a Contract showing all available routes
+### for the frontend as well as a set of tests for our backends.
+
+### CREATE ACCOUNT
+POST  http://localhost:13000/auth/register
 Content-Type: application/json
 
 {
-  "firstName": "User 2",
-  "lastName": "Phan",
-  "email": "user3@example.com",
-  "password": "your-password"
+  "firstName": "User 3",
+  "lastName": "Hello",
+  "email": "testSep5@example.com",
+  "password": "testSep5@example.com"
 }
 ###
+
+### LOGIN 
+POST  http://localhost:13000/auth/login
+Content-Type: application/json
+
+{
+  "email": "testSep5@example.com",
+  "password": "my-password-this-time"
+}
+###
+
 ### LOGIN SUCCESS 
 POST  http://localhost:13000/auth/login/email
 Content-Type: application/json
@@ -28,3 +42,40 @@ Content-Type: application/json
 }
 ###
 ### Login/ Register with Google: http://localhost:13000/auth/google
+
+### GET USER BY ID
+GET http://localhost:13000/users/get?id=6c3d889c-7d44-4b4f-a28b-7f38606d4f21
+
+###
+
+### UPDATE PASSWORD
+PATCH http://localhost:13000/users/update-password
+Content-Type: application/json
+
+{
+  "update_password" : "my-password-this-time" 
+}
+
+### UPDATE USER
+PATCH http://localhost:13000/users/update
+Content-Type: application/json
+
+{
+  "fieldsToUpdate" : {
+    "firstName" : "New First Name",
+    "lastName" : "New Last Name"
+  }
+}
+
+
+### DELETE USER
+DELETE  http://localhost:13000/users/delete
+Content-Type: application/json
+
+### LOGOUT USER
+POST http://localhost:13000/auth/logout
+Content-Type: application/json
+
+### GET ALL SPORTS
+GET  http://localhost:13000/utils/getAllSports
+Content-Type: application/json

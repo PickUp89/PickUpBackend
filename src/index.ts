@@ -11,6 +11,8 @@ import syncModel from '../config/syncModels'
 dotenv.config();
 
 import authRoutes from "./routes/authRoutes";
+import userProfileRoutes from './routes/userProfileRoutes';
+import utilRoutes from "./routes/utilRoutes";
 const port = process.env.PORT
 
 const app = express();
@@ -32,6 +34,8 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 
 app.use("/auth", authRoutes);
+app.use("/users", userProfileRoutes);
+app.use("/utils", utilRoutes)
 
 // SYNC DATABASE:
 const wantToSync = true;
