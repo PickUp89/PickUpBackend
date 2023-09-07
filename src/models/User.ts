@@ -52,7 +52,7 @@ const User = sequelize.define<UserInstance>("User", {
     allowNull: false,
   },
   biography: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     defaultValue: "",
     allowNull: true,
   }
