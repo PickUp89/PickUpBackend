@@ -13,7 +13,7 @@ interface UserAttributes {
   googleId: string;
   biography: string;
   sports: string;
-
+  isGoogleAuthenticated: boolean;
 }
 
 interface UserInstance extends Model<UserAttributes>, UserAttributes {}
@@ -68,7 +68,11 @@ const User = sequelize.define<UserInstance>("User", {
     type: DataTypes.STRING,
     allowNull: true,
     unique: true,
-  }
+  },
+  isGoogleAuthenticated: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
 });
 
 export default User;

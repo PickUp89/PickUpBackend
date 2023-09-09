@@ -34,9 +34,11 @@ passport.use(
 
         // Find existing User by googleId
         const existingUser = await User.findOne({ where: { googleId: id } });
+
         if (existingUser) {
-          console.log("User found:", existingUser);
-          return cb(null, existingUser);
+          existingUser.isGoogleAuthenticated = true;
+          existingUser.save();
+          return cb(null, existingUser, accessToken);
         }
 
         // Create a new User with all required fields
@@ -46,9 +48,10 @@ passport.use(
           lastName: familyName,
           email: userEmail,
           profilePicture: base64Picture,
+          isGoogleAuthenticated: true,
         });
 
-        console.log("New Google User created", newUser);
+        // console.log("New Google User created", newUser);
         return cb(null, newUser);
       } catch (err) {
         console.error("Error creating Google user", err);
@@ -58,18 +61,16 @@ passport.use(
   )
 );
 // @ts-ignore
-passport.serializeUser(function (user, done) {
-    done(null, user.id);
+passport.serializeUser(function(user, cb) {
+  process.nextTick(function() {
+    cb(null, { id: user.id, username: user.username, name: user.name });
+  });
 });
 // @ts-ignore
-passport.deserializeUser(async function (id, done) {
-    // @ts-ignore
-    try {
-        const user = await User.findOne({ where: {id: id}});
-        done('', user);
-    } catch (err) {
-        done(err, null);
-    }
+passport.deserializeUser(function(user, cb) {
+  process.nextTick(function() {
+    return cb(null, user);
+  });
 });
 
 export default passport;

@@ -4,6 +4,7 @@ import { registerWithEmail, loginWithEmail } from '../controllers/auth';
 import passport from '../controllers/passport';
 import { logOutUser } from "../controllers/user";
 import { withPermissions } from '../middleware/middleware';
+import User from '../models/User';
 
 const router = express.Router();
 
@@ -20,10 +21,20 @@ router.post('/logout', withPermissions(['View profile']), logOutUser);
 router.get('/google', passport.authenticate('google', {
   scope: ['profile', 'email'],
 }));
-router.get('/google/callback', 
-  passport.authenticate('google', {
-    successRedirect: '/success', // TODO: change this after config frontend
-    failureRedirect: '/fail', // TODO: change this after config frontend
-  }));
+router.get('/google/callback',
+  passport.authenticate('google'), 
+    // @ts-ignore
+    (req, res) => {
+      // @ts-ignore
+      if (req?.user) {
+        // @ts-ignore
+        const userId = req.user.id;
+        res.redirect(`http://localhost:3000/user/${userId}`);
+        res.status(200);
+      } else {
+        res.redirect(`http://localhost:3000/auth`);
+        res.status(403);
+      }
+    });
 
 export default router;

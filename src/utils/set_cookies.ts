@@ -7,7 +7,9 @@ export function setCookie(res: Response, name: string, value: string, custom_con
     // Default config for cookie
     const defaultConfig = {
         httpOnly : true,
-        maxAge : 60 * 60000, // 60 minutes in miliseconds 
+        maxAge : 60 * 60000, // 60 minutes in miliseconds
+        sameSite: 'none', // Allow cross-origin sharing
+        domain: 'http://localhost:3000',
     };
 
     // Merge custom config with default config
