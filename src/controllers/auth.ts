@@ -20,7 +20,7 @@ const registerWithEmail = async (req: Request, res: Response) => {
     const hashPassword = await bcrypt.hash(password, salt);
 
     // give the users certain permissions
-    const permissions: string[] = ["View profile", "View dashboard", "Update password", "Delete account"];
+    const permissions: string[] = ["View profile", "View dashboard", "Update password", "Update user", "Delete account"];
 
     const newUser = await User.create({
       firstName,

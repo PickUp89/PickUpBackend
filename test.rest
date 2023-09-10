@@ -8,8 +8,8 @@ Content-Type: application/json
 {
   "firstName": "User 3",
   "lastName": "Hello",
-  "email": "testSep5@example.com",
-  "password": "testSep5@example.com"
+  "email": "testSep9@example.com",
+  "password": "testSep9@example.com"
 }
 ###
 
@@ -18,8 +18,8 @@ POST  http://localhost:13000/auth/login
 Content-Type: application/json
 
 {
-  "email": "testSep5@example.com",
-  "password": "my-password-this-time"
+  "email": "testSep9@example.com",
+  "password": "testSep9@example.com"
 }
 ###
 

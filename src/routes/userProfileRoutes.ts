@@ -11,7 +11,7 @@ router.get('/get', getUser);
 // PATCH request to update any fields
 router.patch('/update-password', withPermissions(["Update password"]), updatePassword);
 
-router.patch('/update', updateUser);
+router.patch('/update', withPermissions(["Update user"]), updateUser);
 // DELETE request to delete the user's account
 router.delete('/delete', withPermissions(["Delete account"]), deleteAccount);
 

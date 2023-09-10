@@ -9,7 +9,7 @@ export function setCookie(res: Response, name: string, value: string, custom_con
         httpOnly : true,
         maxAge : 60 * 60000, // 60 minutes in miliseconds
         sameSite: 'none', // Allow cross-origin sharing
-        domain: 'http://localhost:3000',
+        domain: 'localhost',
     };
 
     // Merge custom config with default config
