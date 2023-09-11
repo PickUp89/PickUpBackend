@@ -10,6 +10,7 @@ interface PostAttributes {
   creatorId: typeof DataTypes.UUID; // Foreign key for the creator
   location: any; // Sequelize.GEOMETRY("POINT")
   eventDate: Date; // Sequelize.Date
+  eventType: string;
 }
 
 interface PostInstance extends Model<PostAttributes>, PostAttributes {}
@@ -49,6 +50,11 @@ const Post = sequelize.define<PostInstance>("Post", {
       eventDate: {
         type: DataTypes.DATE,
         allowNull: true,
+      },
+      eventType : {
+        type: DataTypes.STRING,
+        defaultValue: [""],
+        allowNull: false,
       },
 });
 
