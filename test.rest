@@ -79,3 +79,40 @@ Content-Type: application/json
 ### GET ALL SPORTS
 GET  http://localhost:13000/utils/getAllSports
 Content-Type: application/json
+
+
+### CREATE A NEW POST:
+POST http://localhost:13000/posts/create
+Content-Type: application/json
+
+{
+  "title": "Soccer Pick Up",
+  "description": "A fun pick up",
+  "creatorId": "66d2668f-5408-412b-8c3a-d45fbe7733e1",
+  "location": {"latitude": 12313123.13123, "longitude": 401131.21312},
+  "eventDate": "2023-09-20 17:12:28.418 -0400",
+  "eventType": "GAME"
+} 
+### GET POST BY POST ID
+GET http://localhost:13000/posts/getPostById?id=b2687d64-7b64-4161-99b3-8afb71f080cb
+###
+
+### DELETE
+DELETE  http://localhost:13000/posts/delete
+Content-Type: application/json
+
+{
+  "id": "3069c1ae-7b19-4d72-9e50-040fafaa422a"
+}
+
+### UPDATE POST
+PATCH  http://localhost:13000/posts/update
+Content-Type: application/json
+
+{
+  "id": "fd071664-250f-4360-93cc-8e8c54f51e1f",
+  "fieldsToUpdate" : {
+    "title" : "jfnweiognfwoenf"
+  }
+
+}
