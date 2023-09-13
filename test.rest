@@ -95,5 +95,24 @@ Content-Type: application/json
 } 
 ### GET POST BY POST ID
 GET http://localhost:13000/posts/getPostById?id=b2687d64-7b64-4161-99b3-8afb71f080cb
-
 ###
+
+### DELETE
+DELETE  http://localhost:13000/posts/delete
+Content-Type: application/json
+
+{
+  "id": "3069c1ae-7b19-4d72-9e50-040fafaa422a"
+}
+
+### UPDATE POST
+PATCH  http://localhost:13000/posts/update
+Content-Type: application/json
+
+{
+  "id": "fd071664-250f-4360-93cc-8e8c54f51e1f",
+  "fieldsToUpdate" : {
+    "title" : "jfnweiognfwoenf"
+  }
+
+}

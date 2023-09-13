@@ -8,7 +8,6 @@ router.get('/getAllSports', (req, res) => {
     } catch(err) {
         res.status(500).json({ Error: 'Cant get all sports' });
     }
-
 });
 
 export default router;

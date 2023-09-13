@@ -89,4 +89,59 @@ const createNewPost = async (req: Request, res: Response) => {
   }
 };
 
-export { getPostById, getPostByUserId, createNewPost};
+// DELETE post
+const deletePost = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.body;
+  
+    const foundPost = await Post.findOne({
+      where: {id : id},
+    })
+
+    if(!foundPost) {
+        return res.status(404).json({ message: `Post doesnt exists`});
+    }
+
+    // delete the user's account
+    await foundPost.destroy();
+    return res.status(201);
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ error: e.message });
+  }
+};
+
+// UPDATE POST:
+const updatePost = async (req: Request, res: Response) => {
+  try {
+      const {id} = req.body;
+      const fieldsToUpdate = req?.body?.fieldsToUpdate;
+
+      // query the user with the email
+      let foundPost = await Post.findOne({
+          where: { id: id },
+      });
+
+      // if user is not found in the database
+      if(!foundPost) {
+          return res.status(404).json("Cannot find user with the provided email");
+      }
+      
+      Object.entries(fieldsToUpdate).forEach(([key, value]) => {
+          if (key in foundPost) {
+              // @ts-ignore
+              foundPost[key] = value;
+          }
+      });
+
+      foundPost.save();
+      
+      return res.status(201).json(foundPost);
+
+  } catch(err) {
+      console.error(err);
+      return res.status(500).json({ error: err.message });
+  }
+}
+
+export { getPostById, getPostByUserId, createNewPost, deletePost, updatePost};
