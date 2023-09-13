@@ -13,6 +13,8 @@ dotenv.config();
 import authRoutes from "./routes/authRoutes";
 import userProfileRoutes from './routes/userProfileRoutes';
 import utilRoutes from "./routes/utilRoutes";
+import postRoutes from "./routes/postRoutes";
+
 const port = process.env.PORT
 
 const app = express();
@@ -35,7 +37,8 @@ app.use(bodyParser.json());
 
 app.use("/auth", authRoutes);
 app.use("/users", userProfileRoutes);
-app.use("/utils", utilRoutes)
+app.use("/utils", utilRoutes);
+app.use("/posts", postRoutes);
 
 // SYNC DATABASE:
 const wantToSync = true;
