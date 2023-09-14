@@ -1,6 +1,7 @@
 // user read (query one user), update and delete account
 import e, { Request, Response } from "express";
 import Post from "../models/Post";
+import getLongLat from "../utils/addressToLatLong";
 
 // GET posts by id
 const getPostById = async (req: Request, res: Response) => {
@@ -62,20 +63,26 @@ const createNewPost = async (req: Request, res: Response) => {
     const { title, description, creatorId, location, eventDate, eventType } =
       req.body;
 
+    const longLat = await getLongLat(location);
+
+    if (!longLat) {
+        throw new Error(`Cant convert location to latitude and longitude`); 
+    }
+    
     console.log('payload', {
         title,
         description,
         creatorId,
-        location,
+        location: {...longLat, address: location},
         eventDate,
         eventType,
-    })
+    });
 
     const newPost = await Post.create({
         title,
         description,
         creatorId,
-        location,
+        location: {...longLat, address: location},
         eventDate,
         eventType,
     });
