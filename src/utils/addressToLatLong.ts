@@ -1,16 +1,32 @@
-// get the long and lat from the addresses
+import axios, { AxiosResponse } from 'axios';
 
-const getLongLat = (address : string) => {
-    var fetch = require('node-fetch');
-    var requestOptions = {
-    method: 'GET',
+const getLongLat = async (address: string) => {
+  try {
+    const response: AxiosResponse<ArrayBuffer> = await axios.get(
+      `https://api.geoapify.com/v1/geocode/search?text=${address}&apiKey=${process.env.GEOCODER_API}`,
+      {
+        responseType: "arraybuffer",
+      }
+    );
+
+    // Convert the response data to a string
+    const responseData = Buffer.from(response.data).toString("utf-8");
+
+    // Parse the string as JSON
+    const result = JSON.parse(responseData);
+
+    if (!result || !result.features || result.features.length === 0) {
+      throw new Error("No geocode data found.");
+    }
+
+    return {
+      latitude: result.features[0].properties.lat,
+      longitude: result.features[0].properties.lon,
     };
-
-    fetch("https://api.geoapify.com/v1/geocode/search?text=38%20Upper%20Montagu%20Street%2C%20Westminster%20W1H%201LJ%2C%20United%20Kingdom&apiKey=YOUR_API_KEY", requestOptions)
-    //@ts-ignore
-    .then(response => response.json())
-    //@ts-ignore
-    .then(result => console.log(result))
-    //@ts-ignore
-    .catch(error => console.log('error', error));
+  } catch (error) {
+    console.error("Error:", error);
+    return null;
+  }
 };
+
+export default getLongLat; 
