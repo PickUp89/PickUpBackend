@@ -116,3 +116,12 @@ Content-Type: application/json
   }
 
 }
+
+### GET
+GET  http://localhost:13000/posts/getPostByLocation
+Content-Type: application/json
+
+{
+  "longtitude" : -80.432953,
+  "latitude" : 143.469666
+}
