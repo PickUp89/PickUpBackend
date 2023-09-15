@@ -86,10 +86,10 @@ POST http://localhost:13000/posts/create
 Content-Type: application/json
 
 {
-  "title": "Soccer Pick Up",
+  "title": "Basketball Game",
   "description": "A fun pick up",
   "creatorId": "66d2668f-5408-412b-8c3a-d45fbe7733e1",
-  "location": {"latitude": 12313123.13123, "longitude": 401131.21312},
+  "location": "400 Westcroft Drive, Waterloo",
   "eventDate": "2023-09-20 17:12:28.418 -0400",
   "eventType": "GAME"
 } 
