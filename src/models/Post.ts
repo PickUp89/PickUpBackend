@@ -17,45 +17,45 @@ interface PostInstance extends Model<PostAttributes>, PostAttributes {}
 
 const Post = sequelize.define<PostInstance>("Post", {
     id: {
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
-        allowNull: false,
-        primaryKey: true,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      allowNull: false,
+      primaryKey: true,
+    },
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    attendees: {
+      type: DataTypes.ARRAY(DataTypes.UUID),
+      defaultValue: [],
+      allowNull: true,
+    },
+    creatorId: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      references: {
+        model: "Users",
+        key: "id",
       },
-      title: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      description: {
-        type: DataTypes.TEXT,
-        allowNull: true,
-      },
-      attendees: {
-        type: DataTypes.ARRAY(DataTypes.UUID),
-        defaultValue: [],
-        allowNull: true,
-      },
-      creatorId: {
-        type: DataTypes.UUID,
-        allowNull: false,
-        references: {
-          model: "Users",
-          key: "id",
-        },
-      },
-      location: {
-        type: DataTypes.JSON,
-        allowNull: false,
-      },
-      eventDate: {
-        type: DataTypes.DATE,
-        allowNull: true,
-      },
-      eventType : {
-        type: DataTypes.STRING,
-        defaultValue: [""],
-        allowNull: false,
-      },
+    },
+    location: {
+      type: DataTypes.JSON,
+      allowNull: false,
+    },
+    eventDate: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    eventType : {
+      type: DataTypes.STRING,
+      defaultValue: [""],
+      allowNull: false,
+    },
 });
 
 // Define the relationship between Post and User for the creator

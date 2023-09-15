@@ -81,32 +81,25 @@ const getPostByLocation = async(req: Request, res: Response) => {
       // calculate the distance based on the longtitude and latitude
       // 
       //@ts-ignore
-      const distance : number = calculateDistance(location.latitude, location.longitude, latitude, longitude);
-      if(distance > 50) { // outside the max range
-        const newArray = locationTable.has(distance) ? [...locationTable.get(distance), location] : [location];
-        locationTable.set(distance, newArray);
-      } else if(distance <= 50 && distance >= 40) { // within the max range (40 -> 50)
-        const newArray = locationTable.has(distance) ? [...locationTable.get(distance), location] : [location];
-        locationTable.set(50, newArray);
-      } else if(distance <= 40 && distance >= 30) { // within the range 30 -> 40
-        const newArray = locationTable.has(distance) ? [...locationTable.get(distance), location] : [location];
-        locationTable.set(40, newArray);
-      } else if(distance <= 30 && distance >= 20) { // within the range 20 -> 30
-        const newArray = locationTable.has(distance) ? [...locationTable.get(distance), location] : [location];
-        locationTable.set(30, newArray);
-      } else if(distance <= 20 && distance >= 10) { // within the range 10 -> 20
-        const newArray = locationTable.has(distance) ? [...locationTable.get(distance), location] : [location];
-        locationTable.set(20, newArray);
-      } else { // within the range 0 to 10
-        const newArray = locationTable.has(distance) ? [...locationTable.get(distance), location] : [location];
-        locationTable.set(10, newArray);
-      }
+      const distance: number = calculateDistance(location.latitude, location.longitude, latitude, longitude);
+
+      // Define the distance range (0-10, 10-20, etc.)
+      const distanceRange = Math.floor(distance/10) * 10;
+
+      // Get the existing locations in this distance range, or create an empty array
+      const existingLocations = locationTable.get(distanceRange) || [];
+
+      // Add the current location to the array
+      existingLocations.push(location);
+
+      // Update the locationTable with the new array
+      locationTable.set(distanceRange, existingLocations);
     });
 
     // send back the response to the client
     // Convert the Map to an array of key-value pairs
     const mapArray = Array.from(locationTable.entries());
-
+    
     // Serialize the array to JSON
     const json = JSON.stringify(mapArray);
 
@@ -155,8 +148,6 @@ const createNewPost = async (req: Request, res: Response) => {
     return res.status(500).json({ error: e.message });
   }
 };
-
-
 
 // DELETE post
 const deletePost = async (req: Request, res: Response) => {
