@@ -1,9 +1,10 @@
 // user read (query one user), update and delete account
 import e, { Request, Response } from "express";
 import Post from "../models/Post";
-import { INTEGER, IntegerDataType } from "sequelize";
+import { INTEGER, IntegerDataType, where } from "sequelize";
 import { calculateDistance } from "../utils/calculateDistance";
 import getLongLat from "../utils/addressToLatLong";
+import User from "../models/User";
 
 // GET posts by id
 const getPostById = async (req: Request, res: Response) => {
@@ -204,4 +205,78 @@ const updatePost = async (req: Request, res: Response) => {
   }
 }
 
-export { getPostById, getPostByUserId, createNewPost, deletePost, updatePost, getPostByLocation };
+// function to get userID and the postId when the user click on attending the post
+const attendPost = async(req: Request, res: Response) => {
+  try {
+    // get the userID and the postId from the request body
+    const { userId, postId} = req.body;
+
+    // query the user with the user id
+    const findUser = await User.findOne({
+      where: { id : userId }
+    });
+
+    // query the post with the post id
+    const findPost = await Post.findOne({
+      where: { id : postId }
+    });
+
+    // check if user and post is found
+    if(!findUser) {
+      return res.status(404).json('Cannot find user');
+    }
+    if(!findPost) {
+      return res.status(404).json('Cannot find post');
+    }
+
+    // Modify the attendees field in the POST instance
+    const updatedAttendees = [...findPost.attendees, userId];
+
+    // Modify the attending events in the USER instance
+    const updatedAttendingEvents = [...findUser.attendingEvents, postId];
+    
+    // Update the Post instance in the database
+    await findPost.update({ attendees : updatedAttendees});
+
+    // Update the User instance in the database
+    await findUser.update({ attendingEvents : updatedAttendingEvents });
+
+    return res.status(201); // add the user into the post attendees successfully
+
+  } catch(err) {
+    console.error(err);
+    return res.status(500).json({ error: err.message });
+  }
+}; 
+
+// function to update the save posts to the USER instances -> will optimize this with another method later on!!!!!
+const savedPosts = async(req: Request, res: Response) => {
+  // get the user id and post id from the request body
+  try {
+    const { userId, postId } = req.body;
+
+    // get the userID from the database
+    const getUser = await User.findOne({
+      where : { id: userId }
+    });
+    
+    // if there is no such user
+    if(!getUser) {
+      return res.status(404).json('User not found');
+    }
+
+    // store the post id into the user's saved post
+    const updatedSavedEvents = [...getUser.savedEvents, postId];
+
+    // update the saved events field
+    await getUser.update({ savedEvents : updatedSavedEvents });
+
+    return res.status(201); // saved the event to the user's saved events successfully
+
+  } catch(err) {
+    console.log(err);
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+export { getPostById, getPostByUserId, createNewPost, deletePost, updatePost, getPostByLocation, attendPost, savedPosts };
