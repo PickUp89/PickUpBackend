@@ -24,7 +24,7 @@ const getPostById = async (req: Request, res: Response) => {
   } catch (err) {
     console.error(err);
     return res.status(500).json({ error: err.message });
-  }
+  };
 };
 // GET posts by userId
 const getPostByUserId = async (req: Request, res: Response) => {
@@ -39,7 +39,7 @@ const getPostByUserId = async (req: Request, res: Response) => {
         .json({
           error: "Invalid postCount value. It should be a positive integer.",
         });
-    }
+    };
 
     const foundPosts = await Post.findAll({
       where: { creatorId: userId },
@@ -57,7 +57,7 @@ const getPostByUserId = async (req: Request, res: Response) => {
   } catch (err) {
     console.error(err);
     return res.status(500).json({ error: err.message });
-  }
+  };
 };
 
 // GET RECOMMENDATION POSTS WITHIN X KM

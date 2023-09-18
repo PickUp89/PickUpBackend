@@ -13,7 +13,7 @@ router.patch('/update-password', withPermissions(["Update password"]), updatePas
 
 router.patch('/update', withPermissions(["Update user"]), updateUser);
 // DELETE request to delete the user's account
-router.delete('/delete', withPermissions(["Delete account"]), deleteAccount);
-
+// router.delete('/delete', withPermissions(["Delete account"]), deleteAccount); // uncommnent this later
+router.delete('/delete', deleteAccount);
 
 export default router;

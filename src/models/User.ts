@@ -10,6 +10,9 @@ interface UserAttributes {
   location: string;
   profilePicture: string;
   permissions: string[];
+  account_verified: boolean,
+  temp_token: string,
+  is_active: boolean, // the user's account is active or not 
   googleId: string;
   biography: string;
   sports: string;
@@ -55,6 +58,20 @@ const User = sequelize.define<UserInstance>("User", {
   permissions: {
     type: DataTypes.ARRAY(DataTypes.STRING),
     defaultValue: [""],
+    allowNull: false,
+  },
+  account_verified: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+    allowNull: false,
+  },
+  temp_token: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  is_active: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
     allowNull: false,
   },
   biography: {
