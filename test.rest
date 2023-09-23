@@ -6,12 +6,11 @@ POST  http://localhost:13000/auth/register
 Content-Type: application/json
 
 {
-  "firstName": "User 3",
-  "lastName": "Hello",
-  "email": "testSep9@example.com",
-  "password": "testSep9@example.com"
+  "firstName": "User 6",
+  "lastName": "Wassup",
+  "email": "duykhang2302@gmail.com",
+  "password": "testSep18@example.com"
 }
-###
 
 ### LOGIN 
 POST  http://localhost:13000/auth/login
@@ -71,6 +70,10 @@ Content-Type: application/json
 ### DELETE USER
 DELETE  http://localhost:13000/users/delete
 Content-Type: application/json
+
+{
+  "email" : "duykhang2302@gmail.com"
+}
 
 ### LOGOUT USER
 POST http://localhost:13000/auth/logout

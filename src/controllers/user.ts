@@ -128,11 +128,14 @@ const updateUser = async (req: Request, res: Response) => {
 const deleteAccount = async (req:Request, res:Response) => {
     // get the user's email from cookies
     try {
-        const authToken = req.cookies['authToken'];
+        // UNCOMMENT THIS LATER
+        // const authToken = req.cookies['authToken'];
 
-        // decode the token and get the user's email to delete the account
-        const decodedToken : any = jwt.verify(authToken, process.env.JWT_SECRET_KEY);
-        const email: string = decodedToken.email;
+        // // decode the token and get the user's email to delete the account
+        // const decodedToken : any = jwt.verify(authToken, process.env.JWT_SECRET_KEY);
+        // const email: string = decodedToken.email;
+        
+        const { email } = req.body;
         
         // query to get the user's to delete the account
         const findUser = await User.findOne({

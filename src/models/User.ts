@@ -10,10 +10,15 @@ interface UserAttributes {
   location: string;
   profilePicture: string;
   permissions: string[];
+  account_verified: boolean,
+  temp_token: string,
+  is_active: boolean, // the user's account is active or not 
   googleId: string;
   biography: string;
   sports: string;
   isGoogleAuthenticated: boolean;
+  attendingEvents: string[]; // this store the list of posts id that the user is attending
+  savedEvents: string[]; // this store the list of posts id that user saved for later
 }
 
 interface UserInstance extends Model<UserAttributes>, UserAttributes {}
@@ -55,6 +60,20 @@ const User = sequelize.define<UserInstance>("User", {
     defaultValue: [""],
     allowNull: false,
   },
+  account_verified: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+    allowNull: false,
+  },
+  temp_token: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  is_active: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+    allowNull: false,
+  },
   biography: {
     type: DataTypes.TEXT,
     defaultValue: "",
@@ -74,6 +93,16 @@ const User = sequelize.define<UserInstance>("User", {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
+  attendingEvents: {
+    type: DataTypes.ARRAY(DataTypes.UUID),
+    defaultValue: [],
+    allowNull : true,
+  },
+  savedEvents: {
+    type : DataTypes.ARRAY(DataTypes.UUID),
+    defaultValue : [],
+    allowNull : true,
+  }
 });
 
 export default User;

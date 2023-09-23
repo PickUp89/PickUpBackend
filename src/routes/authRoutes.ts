@@ -1,5 +1,5 @@
 import express from 'express';
-import { registerWithEmail, loginWithEmail } from '../controllers/auth';
+import { registerWithEmail, loginWithEmail, emailVerification } from '../controllers/auth';
 
 import passport from '../controllers/passport';
 import { logOutUser } from "../controllers/user";
@@ -16,6 +16,8 @@ router.post('/register', registerWithEmail); // registration flow
 router.post('/login', loginWithEmail); // login with email
 router.post('/logout', withPermissions(['View profile']), logOutUser);
 
+// GET routes for verify the user's email address with Twilio
+router.get('/confirm-email', emailVerification); 
 
 // Auth With Google
 router.get('/google', passport.authenticate('google', {
