@@ -105,4 +105,7 @@ const User = sequelize.define<UserInstance>("User", {
   }
 });
 
+// Many-to-many relationships from the user to the chatroom for participants
+
+
 export default User;
